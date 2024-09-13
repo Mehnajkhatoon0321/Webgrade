@@ -14,6 +14,8 @@ import 'package:webgrade_technologies/utils/colours.dart';
 import 'package:webgrade_technologies/utils/commonFunction.dart';
 import 'package:webgrade_technologies/utils/flutter_flow_animations.dart';
 import 'package:webgrade_technologies/utils/font_text_Style.dart';
+
+import '../side_menu/holiday_details.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -107,6 +109,7 @@ class _HomePageState extends State<HomePage> {
     {'subtitle': 'Leave List', 'icon': Icons.book},
     {'subtitle': 'Leave Policy', 'icon': Icons.policy},
     {'subtitle': 'My Profile', 'icon': Icons.person},
+    {'subtitle': 'Holiday details', 'icon': Icons.details},
     {'subtitle': 'Logout', 'icon': Icons.logout},
   ];
 
@@ -301,6 +304,12 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const ProfileDetails()),
+                          );
+                          break;
+                          case 'Holiday details':
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const HolidayDetails()),
                           );
                           break;
                         case 'Logout':
