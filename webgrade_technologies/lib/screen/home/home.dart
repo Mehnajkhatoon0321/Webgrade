@@ -126,50 +126,57 @@ class _HomePageState extends State<HomePage> {
       final formattedDate = dateFormat.format(now);
       final formattedTime = timeFormat.format(now);
 
-      // Fetch current location
+      // Check if location services are enabled
       bool serviceEnabled = await geo.Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        throw Exception("Location services are disabled.");
+        throw Exception("Location services are disabled. Please enable them in settings.");
       }
 
-      geo.LocationPermission permission =
-      await geo.Geolocator.checkPermission();
+      // Check and request permissions
+      geo.LocationPermission permission = await geo.Geolocator.checkPermission();
       if (permission == geo.LocationPermission.denied) {
         permission = await geo.Geolocator.requestPermission();
         if (permission != geo.LocationPermission.whileInUse &&
             permission != geo.LocationPermission.always) {
-          throw Exception("Location permissions are denied.");
+          throw Exception("Location permissions are denied. Please grant permissions in settings.");
         }
       }
 
+      // Get the current position with high accuracy
       geo.Position position = await geo.Geolocator.getCurrentPosition(
-        desiredAccuracy: geo.LocationAccuracy.high,
+        desiredAccuracy: geo.LocationAccuracy.best,
+        forceAndroidLocationManager: true,
       );
 
-      // Get human-readable address
+      // Fetch address from coordinates
       final placemarks = await geoCoding.placemarkFromCoordinates(
         position.latitude,
         position.longitude,
       );
-      final placemark = placemarks.first;
-      final address =
-          '${placemark.locality ?? ''}, ${placemark.subLocality ?? ''}'; // Customize as needed
 
-      // Update button text based on buttonType
-      setState(() {
-        if (buttonType == 'attendance') {
-          buttonText = '$formattedDate , $formattedTime , $address';
-        } else if (buttonType == 'logout') {
-          buttonTextLogout = '$formattedDate , $formattedTime , $address';
-        }
-      });
+      if (placemarks.isNotEmpty) {
+        final placemark = placemarks.first;
+        final address = '${placemark.name ?? ''}, ${placemark.thoroughfare ?? ''}, ${placemark.subLocality ?? ''}, ${placemark.locality ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}';
+
+        // Update button text based on buttonType
+        setState(() {
+          if (buttonType == 'attendance') {
+            buttonText = '$formattedDate, $formattedTime, $address';
+          } else if (buttonType == 'logout') {
+            buttonTextLogout = '$formattedDate, $formattedTime, $address';
+          }
+        });
+      } else {
+        throw Exception("Unable to fetch address from coordinates.");
+      }
     } catch (e) {
       // Handle errors
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(content: Text('Error: ${e.toString()}')),
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var valueType = CommonFunction.getMyDeviceType(MediaQuery.of(context));
@@ -195,6 +202,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -237,6 +245,7 @@ class _HomePageState extends State<HomePage> {
                   // Icon for logout
                   label: Text(
                     buttonText,
+
                     style: FTextStyle.loginBtnStyle,
                   ),
                 ),

@@ -98,8 +98,8 @@ class _HolidayDetailsState extends State<HolidayDetails> {
     List<DateTime> allDates = [];
 
     for (DateTime day = firstDayOfMonth;
-        day.isBefore(lastDayOfMonth.add(Duration(days: 1)));
-        day = day.add(Duration(days: 1))) {
+        day.isBefore(lastDayOfMonth.add(const Duration(days: 1)));
+        day = day.add(const Duration(days: 1))) {
       allDates.add(day);
     }
 
@@ -112,8 +112,8 @@ class _HolidayDetailsState extends State<HolidayDetails> {
     final lastDayOfMonth = DateTime(date.year, date.month + 1, 0);
 
     for (DateTime day = firstDayOfMonth;
-        day.isBefore(lastDayOfMonth.add(Duration(days: 1)));
-        day = day.add(Duration(days: 1))) {
+        day.isBefore(lastDayOfMonth.add(const Duration(days: 1)));
+        day = day.add(const Duration(days: 1))) {
       if (day.weekday == DateTime.sunday) {
         numberOfSundays++;
       }
@@ -268,7 +268,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TableCalendar(
                       focusedDay: _focusedDay,
                       firstDay: DateTime.utc(2020, 1, 1),
@@ -294,7 +294,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                         leftChevronVisible: false,
                         rightChevronVisible: false,
                       ),
-                      calendarStyle: CalendarStyle(
+                      calendarStyle: const CalendarStyle(
                         todayDecoration: BoxDecoration(
                           color: Colors.orangeAccent,
                           shape: BoxShape.circle,
@@ -323,7 +323,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                                 ),
                                 child: Center(
                                     child: Text('${day.day}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white))),
                               ),
                             );
@@ -355,7 +355,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                               ),
                               child: Center(
                                   child: Text('${day.day}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white))),
                             ),
                           );
@@ -364,20 +364,20 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                           return Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Colors.orangeAccent,
                                 shape: BoxShape.circle,
                               ),
                               child: Center(
                                   child: Text('${day.day}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white))),
                             ),
                           );
                         },
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     if (!isFutureMonth) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -392,7 +392,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
                               'Total absent days: $absentDays',
                               style: const TextStyle(
@@ -403,7 +403,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
                         'Total holidays (Sundays) in this month: $numberOfSundays',
                         style: const TextStyle(
@@ -412,7 +412,7 @@ class _HolidayDetailsState extends State<HolidayDetails> {
                             fontWeight: FontWeight.bold),
                       ),
                     ],
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       height: 300, // Adjust height as needed
                       child: ListView(
